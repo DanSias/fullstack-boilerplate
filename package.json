@@ -2,6 +2,7 @@
   "name": "fullstack-boilerplate",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix server",
