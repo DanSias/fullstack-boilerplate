@@ -12,8 +12,8 @@ const ApiTest: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold">API Test</h1>
-      <p>{message || 'Loading...'}</p>
+      <h1 className="text-xl font-bold">API Test Component</h1>
+      <p className="text-gray-700 mt-4">{message || 'Loading...'}</p>
     </div>
   );
 };
