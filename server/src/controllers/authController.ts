@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import prisma from "../prisma";
+import jwt from "jsonwebtoken";
+import prisma from "../prisma.js";
+
+const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { email, password, name } = req.body;
@@ -26,7 +29,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (err) {
-    console.error(err);
+    console.error("Registration error:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -52,12 +55,26 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Generate JWT (replace with your JWT logic)
-    const token = "your-jwt-token";
+    // Update lastLogin timestamp
+    await prisma.user.update({
+      where: { email },
+      data: { lastLogin: new Date() },
+    });
 
-    res.status(200).json({ token, name: user.name });
+    // Generate JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: { id: user.id, name: user.name, email: user.email },
+    });
   } catch (err) {
-    console.error(err);
+    console.error("Login error:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
