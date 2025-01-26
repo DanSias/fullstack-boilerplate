@@ -7,13 +7,21 @@
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix server",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "install-all": "concurrently \"npm install\" \"npm install --prefix client\" \"npm install --prefix server\""
+    "install-all": "concurrently \"npm install\" \"npm install --prefix client\" \"npm install --prefix server\"",
+    "test": "jest --projects client server",
+    "test:frontend": "npm --prefix client test",
+    "test:backend": "npm --prefix server test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.5",
+    "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2"
   }
 }
